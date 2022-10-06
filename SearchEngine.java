@@ -9,25 +9,26 @@ class Handler implements URLHandler {
     ArrayList<String> list = new ArrayList<String>();
     public String handleRequest(URI url) {
         if (url.getPath().equals("/")) {
-            for(int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i));
-                num += 1;
-            }
-            return String.format("Numbers of string: %d", num);
+            //for(int i = 0; i < list.size();) {
+                return String.format("Numbers of string: %d" + list.toString(), num);
+            //}
+            //return String.format("Numbers of string: %d", num);
         } else if (url.getPath().contains("/search")) {
             String[] parameters = url.getQuery().split("=");
+            ArrayList<String> matchList = new ArrayList<String>();
             for(int i = 0; i < list.size(); i++) {
                 if (list.get(i).contains(parameters[1])) {
-                    System.out.println(list.get(i));
+                    matchList.add(list.get(i));
                 }
             }
-            return String.format("Finished Searching");
+            return String.format("Finished Searching. Here is the matching list: " + matchList.toString());
         } else {
             System.out.println("Path: " + url.getPath());
             if (url.getPath().contains("/add")) {
                 String[] parameters = url.getQuery().split("=");
                 if (parameters[0].equals("String")) {
                     list.add(parameters[1]);
+                    num += 1;
                     return String.format("%s is added to the list! There are %d Strings in the list", parameters[1], num);
                 }
             }
